@@ -1,0 +1,40 @@
+# version: "3"
+services:
+
+  front:
+    image: gapi_front
+    container_name: gapi_front_c
+    ports:
+      - "8080:80"
+    volumes:
+      # - .:/app
+      - .:/var/www/html/
+      - storage:/var/www/html/storage
+    # networks:
+    #   uninet:
+    #     ipv4_address: 192.168.55.1
+
+  back:
+    image: gapi_back
+    container_name: gapi_back_c
+    ports:
+      - "5050:5000"
+    volumes:
+      - .:/app
+      - ./tasks/Task_9:/var/www/html/
+      - storage:/storage
+    # networks:
+    #   uninet:
+    #     ipv4_address: 192.168.55.15
+    command: python app.py
+    # command: [ 'apache2ctl', '-D', 'FOREGROUND' ]
+
+volumes:
+  storage:
+
+# networks:
+#   uninet:
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: "192.168.55.0/24"

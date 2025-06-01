@@ -1,0 +1,254 @@
+openapi: 3.0.4
+info:
+  title: Оболочка "Движение" - OpenAPI 3.0
+  description: |-
+    Документация API
+  version: 1.0.0
+tags:
+  - name: clean_text
+    description: Первичная обработка текста
+  - name: vector_text
+    description: Текстовая векторизация
+  - name: semantic_analysis
+    description: Семантический анализ текста
+paths:
+  /clean_text:
+    post:
+      tags:
+        - clean_text
+      summary: Отправка ссылки на исходный текст (с ошибками).
+      description: Отправка ссылки на исходный текст (с ошибками).
+      requestBody:
+        description: Загрузка текста для первичной обработки
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Clean_text_request"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Clean_text_request"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Clean_text_request"
+        required: true
+      responses:
+        "200":
+          description: Файл успешно получен контейнером разработчика
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Clean_text_response"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Clean_text_response"
+        "400":
+          description: Ошибка в содержимом JSON-файла
+        "422":
+          description: Неверная структура данных в JSON-файле
+        default:
+          description: Непредвиденная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /vector_text:
+    post:
+      tags:
+        - vector_text
+      summary: Текстовая векторизация
+      description: Текстовая векторизация
+      requestBody:
+        description: Загрузка текста для векторизации
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Vector_text_request"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Vector_text_request"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Vector_text_request"
+        required: true
+      responses:
+        "200":
+          description: Файлы успешно получены контейнером разработчика
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vector_text_response"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Vector_text_response"
+        "400":
+          description: Ошибка в содержимом JSON-файлов
+        "422":
+          description: Неверная структура данных в JSON-файлах
+        default:
+          description: Непредвиденная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /semantic_analysis:
+    post:
+      tags:
+        - semantic_analysis
+      summary: Семантический анализ нового текста и поиск схожих по смыслу текстов
+      description: Семантический анализ нового текста
+      requestBody:
+        description: Обработка поискового запроса в хранилище
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Semantic_analysis_request"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Semantic_analysis_request"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Semantic_analysis_request"
+        required: true
+      responses:
+        "200":
+          description: Файл успешно получен контейнером разработчика
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Semantic_analysis_response"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Semantic_analysis_response"
+        "400":
+          description: Ошибка в содержимом JSON-файла
+        "422":
+          description: Неверная структура данных в JSON-файле
+        default:
+          description: Непредвиденная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Clean_text_request:
+      required:
+        - document_url
+      type: object
+      properties:
+        document_url:
+          type: string
+          example: C:\User\Desktop\file.txt
+      xml:
+        name: clean_text
+
+    Clean_text_response:
+      required:
+        - clean_text_url
+      type: object
+      properties:
+        clean_text_url:
+          type: string
+          example: C:\User\Desktop\clean_file.txt
+      xml:
+        name: clean_text_response
+
+    Vector_text_request:
+      required:
+        - original_document
+        - synonymous_document
+      type: object
+      properties:
+        original_document:
+          type: string
+          example: C:\User\Desktop\file.txt
+        synonymous_document:
+          type: string
+          example: C:\User\Desktop\synonymous_file.txt
+      xml:
+        name: vector_text
+
+    Vector_text_response:
+      required:
+        - original_mvf
+        - synonymous_mvf
+        - developer_value
+      type: object
+      properties:
+        original_mvf:
+          type: string
+          example: [1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0]
+        synonymous_mvf:
+          type: string
+          example: [1,1,1,2,1,1,1,1,1,0,1,1,1,1,2,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1]
+        developer_value:
+          type: number
+          format: number
+          example: 0.89
+      xml:
+        name: vector_text_response
+
+    Semantic_analysis_request:
+      required:
+        - text_fragment
+        - storage_path
+      type: object
+      properties:
+        text_fragment:
+          type: string
+          example: Lorem ipsum dolor sit amet
+        storage_path:
+          type: string
+          example: C:\Local_storage
+      xml:
+        name: semantic_analysis
+
+    Semantic_analysis_response:
+      required:
+        - documents
+      type: object
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: "#/components/schemas/Semantic_analysis_array"
+      xml:
+        name: semantic_analysis_response
+
+    Semantic_analysis_array:
+      required:
+        - document_id
+        - document_name
+        - document_link
+        - developer_value
+      type: object
+      properties:
+        document_id:
+          type: string
+          example: 1
+        document_name:
+          type: string
+          example: Document 1
+        document_link:
+          type: string
+          example: C:\Local_storage\Document 1.docx
+        developer_value:
+          type: number
+          format: number
+          example: 0.89
+      xml:
+        name: Semantic_analysis_array
+  
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message

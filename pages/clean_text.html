@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Предварительная обработка текста</title>
+    <link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/pages/clean_text.css">
+
+    <script src="../js/jQuery/jquery-3.7.1.min.js"></script>
+    <script src="../js/diff-match-patch/diff_match_patch_uncompressed.js"></script>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="file-inputs">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" name="file" id="fileInput">
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <textarea id="originalText" class="form-control" placeholder="Исходный текст"></textarea>
+            </div>
+            <div class="col-12 col-md-6">
+                <textarea id="modifiedText" class="form-control" placeholder="Исправленный текст"></textarea>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <a href="#" class="grid-button w-100" onclick="compareTexts()">Сравнить тексты</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="grid-paragraph">Легенда</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="grid-paragraph">
+                    <span class="legend-item"><span class="inserted-text">Зеленый текст на зеленом фоне</span> : Вставка
+                        символа (текста).</span><br>
+                    <span class="legend-item"><span class="deleted-text">Красный зачеркнутый текст на красном
+                            фоне</span>: Удаление символа (текста).</span><br>
+                    <span class="legend-item"><span class="inserted-space">●</span>: Вставка пробела (зеленая
+                        точка).</span><br>
+                    <span class="legend-item"><span class="deleted-space">●</span>: Удаление пробела (красная
+                        зачеркнутая точка).</span><br>
+                    <span class="legend-item"><span class="inserted-newline">¶</span>: Вставка новой строки (зеленый
+                        знак абзаца).</span><br>
+                    <span class="legend-item"><span class="deleted-newline">¶</span>: Удаление новой строки (красный
+                        зачеркнутый знак абзаца).</span>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div id="comparison"></div>
+        </div>
+    </div>
+    <script src="../js/pages/clean_text.js"></script>
+</body>
+
+</html>
