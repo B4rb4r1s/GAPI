@@ -36,9 +36,9 @@ $(document).ready(function () {
 
                 // Дополнительно: отправка пути файла на удаленный сервер (как в вашем предыдущем коде)
                 $.ajax({
-                    url: 'https://remote-server.com/api',
+                    url: 'http://localhost:5050/api/task',
                     type: 'POST',
-                    data: JSON.stringify({ file_path: filePath }),
+                    data: JSON.stringify({ task: 'clean_text', file_path: filePath }),
                     contentType: 'application/json',
                     success: function (remoteResponse) {
                         console.log('Успешно отправлено на удаленный сервер:', remoteResponse);

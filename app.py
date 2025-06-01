@@ -11,7 +11,7 @@ def handle_task():
     data = request.json
 
     task = data.get('task')
-    file_path = data.get('file')
+    file_path = data.get('file_path')
     print(f'[LOGGER] request task - {task}\n[LOGGER] request file_path - {file_path}', flush=True)
     file_path = file_path[14:]
 
@@ -29,17 +29,15 @@ def handle_task():
             print(content)
 
         # Симуляция обработки и запись в OUTPUT
-        # result = f"Processed {file_path}"
-        # original_path = '/var/www/html/'
-        output_path = 'OUTPUT/output.txt'
+        output_path = f'INPUT/result_2.txt'
         with open(output_path, 'w') as f:
-            f.write("Processed content")
+            f.write("Processed content\n")
             f.write(content)
 
         # "fileUrl": "/var/www/html/php/uploads/1.txt"
         # "fileUrl": "/var/www/html/OUTPUT/output.txt"
         return jsonify({
-            "fileUrl": "INPUT/1.txt"
+            "fileUrl": "INPUT/result_2.txt"
             })
     
     elif task == 'vector_text':
