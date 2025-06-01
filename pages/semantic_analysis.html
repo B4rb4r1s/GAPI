@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Семантический анализ</title>
+
+    <link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/pages/semantic_analysis.css">
+
+    <script src="../js/jQuery/jquery-3.7.1.min.js"></script>
+    <script src="../js/Chartjs/chart.js"></script>
+</head>
+
+<body>
+    <div class="grid-container">
+        <h1>Семантический анализ нового текста (его фрагмента)</h1>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <label for="file-upload" class="custom-file-upload grid-button">Выбрать папку</label>
+                    <input id="file-upload" type="file" webkitdirectory directory multiple/>
+                </form>
+                <div id="output">Абсолютный путь к папке появится здесь...</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <textarea id="mainText" placeholder="Введите текст для анализа (или его фрагмент)"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div id="results">
+                    <h2>Результаты сравнения</h2>
+                    <div id="results-summary"></div>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th data-sort="doc_title">Файл поискового отклика ↕</th>
+                                <th data-sort="doc_link">Ссылка ↕</th>
+                                <th data-sort="developer_value">Степень близости разработчика ↕</th>
+                                <th data-sort="cosine_value">Референсная близость ↕</th>
+                                <th data-sort="arccosine_value">Угловая близость ↕</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-body"></tbody>
+                    </table>
+                    <div class="pagination">
+                        <button id="prevPage" disabled>Предыдущая</button>
+                        <span id="pageInfo">Страница 1 из 1</span>
+                        <button id="nextPage" disabled>Следующая</button>
+                    </div>
+                    <div id="chart-container">
+                        <canvas id="combinedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/pages/semantic_analysis.js"></script>
+</body>
+
+</html>

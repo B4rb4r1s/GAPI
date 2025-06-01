@@ -14,11 +14,14 @@
 
 <body>
     <div class="grid-container">
-        <div class="file-inputs">
-            <form id="uploadForm" enctype="multipart/form-data">
-                <input type="file" name="file" id="fileInput">
-                <button type="submit">Upload</button>
-            </form>
+        <h1>Предварительная обработка текста</h1>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <label for="file-upload" class="custom-file-upload grid-button">Загрузить текст для первичной подготовки</label>
+                    <input id="file-upload" type="file" />
+                </form>
+            </div>
         </div>
         <div class="row">
             <div class="col-12 col-md-6">

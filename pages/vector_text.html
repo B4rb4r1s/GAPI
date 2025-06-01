@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Текстовая векторизация</title>
+    <link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/pages/clean_text.css">
+
+    <script src="../js/jQuery/jquery-3.7.1.min.js"></script>
+    <script src="../js/diff-match-patch/diff_match_patch_uncompressed.js"></script>
+</head>
+
+<body>
+    <div class="grid-container">
+        <h1>Текстовая векторизация</h1>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <label for="file-upload" class="custom-file-upload grid-button">Загрузить текст для
+                        векторизации</label>
+                    <input id="file-upload" type="file" />
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <textarea id="originalText" class="form-control" placeholder="Исходный текст" readonly></textarea>
+            </div>
+            <div class="col-12 col-md-6">
+                <textarea id="modifiedText" class="form-control" placeholder="Синонимичный текст"></textarea>
+                <button class="grid-button w-100" onclick="saveModifiedText()">Сохранить измененный текст</button>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <a href="#" class="grid-button w-100" onclick="checkSynonymy()">Проверка на синонимию</a>
+            </div>
+        </div>
+        <div class="row">
+            <div id="vector-results">
+                <h2>Результаты векторизации</h2>
+                <p><strong>Оригинальный вектор (MVF):</strong> <span id="original-mvf"></span></p>
+                <p><strong>Синонимичный вектор (MVF):</strong> <span id="synonymous-mvf"></span></p>
+                <p><strong>Значение разработчика:</strong> <span id="developer-value"></span></p>
+            </div>
+        </div>
+
+    </div>
+    <script src="../js/pages/vector_text.js"></script>
+</body>
+
+</html>

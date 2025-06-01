@@ -1,0 +1,167 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+.grid-container {
+    width: 100%;
+    padding: 100px;
+}
+
+.row {
+    margin: 10px;
+}
+
+.grid-button {
+    padding: 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.grid-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.01);
+    color: white;
+    text-decoration: none;
+}
+
+.grid-paragraph {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    color: #333;
+}
+
+textarea {
+    width: 100%;
+    height: 500px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    cursor: pointer;
+}
+
+#results {
+    display: none;
+    margin-top: 20px;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results-table th,
+.results-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.results-table th {
+    cursor: pointer;
+    background-color: #f2f2f2;
+}
+
+.similarity-high {
+    background-color: #d4edda;
+}
+
+.similarity-medium {
+    background-color: #fff3cd;
+}
+
+.similarity-low {
+    background-color: #f8d7da;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 80%;
+    max-height: 80%;
+    overflow: auto;
+}
+
+.close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.preview-container {
+    display: flex;
+    gap: 20px;
+}
+
+.preview-box {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.preview-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.preview-content {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.file-detail-section {
+    margin-bottom: 20px;
+}
+
+#chart-container {
+    margin-top: 20px;
+    height: 300px;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination button {
+    margin: 0 5px;
+}
+
+.pagination span {
+    margin: 0 10px;
+}

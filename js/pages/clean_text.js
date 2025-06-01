@@ -1,17 +1,20 @@
 $(document).ready(function () {
-    // Обработка загрузки файла
-    $('#uploadForm').on('submit', function (e) {
-        e.preventDefault();
-
-        // Очищаем textarea для загруженного файла
-        $('#fileContent').val('');
+    // Обработка изменения файла в input
+    $('#file-upload').on('change', function (e) {
+        // Получаем выбранный файл
+        let file = e.target.files[0];
+        if (!file) {
+            console.error('Файл не выбран');
+            return;
+        }
 
         // Создаем FormData для отправки файла
-        let formData = new FormData(this);
+        let formData = new FormData();
+        formData.append('file', file);
 
-        // Отправка файла на сервер PHP
+        // Отправка файла на сервер
         $.ajax({
-            url: '../php/upload.php',
+            url: '../php/upload.php', // Укажите ваш URL для обработки файла
             type: 'POST',
             data: formData,
             contentType: false,
@@ -22,45 +25,38 @@ $(document).ready(function () {
                     $('#originalText').val('Ошибка: ' + response.error);
                     return;
                 }
-                // Получаем абсолютный путь и содержимое файла
-                let filePath = response.file_path;
-                let fileContent = response.file_content;
 
-                // Выводим содержимое файла в textarea
-                // $('#originalText').val(fileContent);
+                // Получаем содержимое файла из ответа
+                let fileContent = response.file_content;
+                let filePath = response.file_path;
 
                 // Выводим содержимое файла в textarea (предполагается, что у вас есть textarea с id="originalText")
                 $('#originalText').val(fileContent);
                 $('#modifiedText').val(filePath);
 
-                // Отправка пути на удаленный сервер
+                // Дополнительно: отправка пути файла на удаленный сервер (как в вашем предыдущем коде)
                 $.ajax({
-                    url: 'http://localhost:5050/api/task',
+                    url: 'https://remote-server.com/api',
                     type: 'POST',
-                    data: JSON.stringify({ task: 'clean_text', file: filePath }),
+                    data: JSON.stringify({ file_path: filePath }),
                     contentType: 'application/json',
                     success: function (remoteResponse) {
                         console.log('Успешно отправлено на удаленный сервер:', remoteResponse);
-                        // Предполагаем, что remoteResponse содержит JSON с fileUrl
+                        // Обработка remoteResponse, если нужно (например, загрузка файла по fileUrl)
                         if (remoteResponse.fileUrl) {
-                            // Загружаем содержимое файла по URL
                             $.ajax({
                                 url: remoteResponse.fileUrl,
                                 type: 'GET',
                                 success: function (fileContent) {
-                                    // Выводим содержимое файла в modifiedText
                                     $('#modifiedText').val(fileContent);
-                                    // Вызываем сравнение текстов после загрузки
-                                    compareTexts();
+                                    // Вызов функции сравнения, если требуется
+                                    // compareTexts();
                                 },
                                 error: function (xhr, status, error) {
                                     console.error('Ошибка при загрузке файла по URL:', error);
                                     $('#modifiedText').val('Ошибка при загрузке файла: ' + error);
                                 }
                             });
-                        } else {
-                            console.error('URL файла не найден в ответе:', remoteResponse);
-                            $('#modifiedText').val('Ошибка: URL файла не найден');
                         }
                     },
                     error: function (xhr, status, error) {

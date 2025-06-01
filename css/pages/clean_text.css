@@ -14,6 +14,10 @@ body {
     padding: 100px;
 }
 
+.row {
+    margin: 10px;
+}
+
 .grid-button {
     padding: 15px;
     font-size: 1rem;
@@ -41,6 +45,19 @@ body {
     font-size: 1.1rem;
     margin-top: 15px;
     color: #333;
+}
+
+textarea {
+    width: 500px;
+    height: 500px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    cursor: pointer;
 }
 
 .insertion {
@@ -102,32 +119,6 @@ body {
     color: red;
     font-size: 1.2rem;
     text-decoration: line-through;
-}
-
-.file-input {
-    display: none;
-}
-
-.custom-file-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    transition: background-color 0.3s;
-}
-
-.custom-file-button:hover {
-    background-color: #0056b3;
-}
-
-.file-name {
-    margin-top: 10px;
-    font-family: Arial, sans-serif;
-    color: #333;
 }
 
 #comparison {
