@@ -34,7 +34,7 @@ $(document).ready(function () {
                 $('#originalText').val(fileContent);
                 $('#modifiedText').val(filePath);
 
-                // Дополнительно: отправка пути файла на удаленный сервер (как в вашем предыдущем коде)
+                /* // Дополнительно: отправка пути файла на удаленный сервер (как в вашем предыдущем коде)
                 $.ajax({
                     url: 'http://localhost:5050/api/task',
                     type: 'POST',
@@ -63,7 +63,7 @@ $(document).ready(function () {
                         console.error('Ошибка при отправке на удаленный сервер:', error);
                         $('#modifiedText').val('Ошибка при отправке на сервер: ' + error);
                     }
-                });
+                }); */
             },
             error: function (xhr, status, error) {
                 console.error('Ошибка при загрузке файла:', error);
