@@ -112,7 +112,7 @@ $(document).ready(function () {
         if (!developerData || !developerData.documents || !ourData || !ourData.documents) {
             $('#output').append('\nОшибка: Неверный формат ответа от серверов');
             console.error('Invalid server response:', { developerData, ourData });
-            $('#tableBody').empty().append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
+            $('#results-body').empty().append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
             return;
         }
 
@@ -153,12 +153,12 @@ $(document).ready(function () {
         let end = start + rowsPerPage;
         let paginatedData = sortedData.slice(start, end);
 
-        $('#tableBody').empty();
+        $('#results-body').empty();
         if (paginatedData.length === 0) {
-            $('#tableBody').append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
+            $('#results-body').append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
         } else {
             paginatedData.forEach(doc => {
-                $('#tableBody').append(`
+                $('#results-body').append(`
                     <tr>
                         <td>${doc.doc_title}</td>
                         <td><a href="${doc.doc_link}" target="_blank">${doc.doc_link}</a></td>
@@ -197,7 +197,7 @@ $(document).ready(function () {
     }
 
     // Initialize chart
-    let chart = new Chart($('#comparisonChart'), {
+    let chart = new Chart($('#combinedChart'), {
         type: 'bar',
         data: {
             labels: [],
