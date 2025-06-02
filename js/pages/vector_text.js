@@ -54,7 +54,12 @@ function checkSynonymy() {
         contentType: 'application/json',
         success: function (response) {
             console.log('Успешно отправлено на удаленный сервер:', response);
+<<<<<<< HEAD
             $('#original-mvf').text(response.original_mvf.join(', '));
+=======
+            // Mock response for demonstration (replace with actual response handling)
+            $('#original-mvf').text(response.orginal_mvf.join(', '));
+>>>>>>> 456a47aa607b2395f5eabc77e8022af48a2cf8e5
             $('#synonymous-mvf').text(response.synonymous_mvf.join(', '));
             $('#developer-value').text(response.developer_value);
         },
