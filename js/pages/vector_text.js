@@ -44,9 +44,10 @@ function checkSynonymy() {
     }
 
     $.ajax({
-        url: 'https://remote-server.com/api',
+        url: 'http://localhost:5050/api/task',
         type: 'POST',
         data: JSON.stringify({
+            task: 'vector_text',
             original_file_path: originalFilePath,
             modified_file_path: modifiedFilePath
         }),

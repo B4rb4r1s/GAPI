@@ -11,18 +11,20 @@ def handle_task():
     data = request.json
 
     task = data.get('task')
-    file_path = data.get('file_path')
-    print(f'[LOGGER] request task - {task}\n[LOGGER] request file_path - {file_path}', flush=True)
-    file_path = file_path[14:]
 
-    if not os.path.exists(file_path):
-        print(f'[LOGGER ERROR] 404 - File not found', flush=True)
-        return jsonify({
-            "error": "File not found"
-            }), 404
     
     if task == 'clean_text':
-        print(f'[LOGGER] task - clean_text', flush=True)
+        file_path = data.get('file_path')
+        file_path = file_path[14:]
+        print(f'[LOGGER] request task - {task}\
+              \n[LOGGER] request file_path - {file_path}', flush=True)
+        
+        if not os.path.exists(file_path):
+            print(f'[LOGGER ERROR] 404 - File not found', flush=True)
+            return jsonify({
+                "error": "File not found"
+                }), 404
+        
         # Чтение переданного фала
         with open(file_path, 'r') as f:
             content = f.read()
@@ -41,6 +43,14 @@ def handle_task():
             })
     
     elif task == 'vector_text':
+        data = request.json
+        task = data.get('task')
+        original_file_path = data.get('original_file_path')
+        modified_file_path = data.get('modified_file_path')
+        file_path = data.get('file_path')
+        print(f'[LOGGER] request task - {task}\
+              \n[LOGGER] request original_file_path - {original_file_path}\
+              \n[LOGGER] request modified_file_path - {modified_file_path}', flush=True)
         # Симуляция обработки
         return jsonify({
             "original_mvf": [1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
