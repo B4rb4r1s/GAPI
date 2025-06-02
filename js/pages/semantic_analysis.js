@@ -58,31 +58,34 @@ $(document).ready(function () {
     });
 
     // Send data to both remote servers
-    function sendToServers(folderPath, docText) {
+    function sendToServers(folderPath) {
         $('#processing').show();
+        let docText = $('#mainText').val() || '';
         let jsonData = {
             task: 'semantic_analysis',
             folderpath: folderPath,
             doc_text: docText
         };
 
+        console.log('Sending to servers:', jsonData);
+
         let developerPromise = $.ajax({
             url: 'http://localhost:5050/api/task',
             type: 'POST',
             data: JSON.stringify(jsonData),
             contentType: 'application/json',
-            dataType: 'json'
+            dataType: 'json',
+            timeout: 10000 // 10-second timeout
         });
-        console.log(jsonData)
 
         let ourPromise = $.ajax({
             url: 'http://localhost:5051/api/task',
             type: 'POST',
             data: JSON.stringify(jsonData),
             contentType: 'application/json',
-            dataType: 'json'
+            dataType: 'json',
+            timeout: 10000 // 10-second timeout
         });
-        console.log(jsonData)
 
         Promise.all([developerPromise, ourPromise])
             .then(([developerResponse, ourResponse]) => {
@@ -93,23 +96,30 @@ $(document).ready(function () {
                 $('#processing').hide();
             })
             .catch(error => {
-                console.error('Ошибка при отправке на серверы:', error);
-                $('#output').append('\nОшибка при отправке JSON: ' + error);
+                console.error('Ошибка при отправке на серверы:', {
+                    message: error.message,
+                    status: error.status,
+                    responseText: error.responseText,
+                    stack: error.stack
+                });
+                $('#output').append('\nОшибка при отправке JSON: ' + (error.message || 'Неизвестная ошибка'));
                 $('#processing').hide();
             });
     }
 
     // Combine data from both JSONs
     function combineAndDisplayData(developerData, ourData) {
-        if (!developerData.documents || !ourData.documents) {
+        if (!developerData || !developerData.documents || !ourData || !ourData.documents) {
             $('#output').append('\nОшибка: Неверный формат ответа от серверов');
+            console.error('Invalid server response:', { developerData, ourData });
+            $('#tableBody').empty().append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
             return;
         }
 
         currentData = developerData.documents.map(devDoc => {
             let ourDoc = ourData.documents.find(doc => doc.id === devDoc.id);
             return {
-                id: devDoc.id,
+                id: devDoc.id || 0,
                 doc_title: devDoc.doc_title || 'Unknown',
                 doc_link: devDoc.doc_link || '#',
                 developer_value: devDoc.developer_value || 0,
