@@ -29,6 +29,22 @@ services:
     command: python app.py
     # command: [ 'apache2ctl', '-D', 'FOREGROUND' ]
 
+  back2:
+    image: gapi_back
+    container_name: gapi_our_back_c
+    ports:
+      - "5051:5000"
+    volumes:
+      - .:/app
+      - ./tasks/Task_9:/var/www/html/
+      - storage:/storage
+    # networks:
+    #   uninet:
+    #     ipv4_address: 192.168.55.15
+    command: python our_app.py
+    # command: [ 'apache2ctl', '-D', 'FOREGROUND' ]
+
+
 volumes:
   storage:
 

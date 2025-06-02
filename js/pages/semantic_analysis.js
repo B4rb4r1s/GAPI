@@ -51,7 +51,7 @@ $(document).ready(function () {
                 };
 
                 console.log(jsonData)
-                /* sendToServers(folderPath); */
+                sendToServers(folderPath, docText);
 
             },
             error: function (xhr, status, error) {
@@ -60,30 +60,33 @@ $(document).ready(function () {
         });
     });
 
-    /* // Send data to both remote servers
-    function sendToServers(folderPath) {
+    // Send data to both remote servers
+    function sendToServers(folderPath, docText) {
         $('#processing').show();
-        let docText = $('#mainText').val() || '';
+        // let docText = $('#mainText').val() || '';
         let jsonData = {
+            task: 'semantic_analysis',
             folderpath: folderPath,
             doc_text: docText
         };
 
         let developerPromise = $.ajax({
-            url: 'https://remote-server.com/api',
+            url: 'http://localhost:5050/api/task',
             type: 'POST',
             data: JSON.stringify(jsonData),
             contentType: 'application/json',
             dataType: 'json'
         });
+        console.log(jsonData)
 
         let ourPromise = $.ajax({
-            url: 'https://remote-server2.com/api',
+            url: 'http://localhost:5051/api/task',
             type: 'POST',
             data: JSON.stringify(jsonData),
             contentType: 'application/json',
             dataType: 'json'
         });
+        console.log(jsonData)
 
         Promise.all([developerPromise, ourPromise])
             .then(([developerResponse, ourResponse]) => {
@@ -229,5 +232,5 @@ $(document).ready(function () {
             sortDirection = 'asc';
         }
         updateTable();
-    }); */
+    });
 });
