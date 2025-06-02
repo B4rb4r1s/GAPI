@@ -37,9 +37,22 @@ $(document).ready(function () {
                     return;
                 }
 
+                // Формируем путь в стиле C:\folder_name
                 let folderPath = 'C:\\' + response.folder_name;
                 $('#output').text('Абсолютный путь к папке: ' + folderPath);
-                sendToServers(folderPath);
+
+                // Получаем текст из textarea
+                let docText = $('#mainText').val() || '';
+
+                // Формируем JSON
+                let jsonData = {
+                    folderpath: folderPath,
+                    doc_text: docText
+                };
+
+                console.log(jsonData)
+                /* sendToServers(folderPath); */
+
             },
             error: function (xhr, status, error) {
                 $('#output').text('Ошибка при загрузке: ' + error);
@@ -47,25 +60,7 @@ $(document).ready(function () {
         });
     });
 
-    // Handle text file upload
-    $('#textUploadForm').on('submit', function (e) {
-        e.preventDefault();
-        let file = $('#textFileInput')[0].files[0];
-        if (file) {
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                $('#mainText').val(e.target.result);
-                $('#textFileStatus').text('Файл загружен: ' + file.name);
-                let folderPath = $('#output').text().replace('Абсолютный путь к папке: ', '');
-                if (folderPath !== 'Абсолютный путь к папке появится здесь...') {
-                    sendToServers(folderPath);
-                }
-            };
-            reader.readAsText(file);
-        }
-    });
-
-    // Send data to both remote servers
+    /* // Send data to both remote servers
     function sendToServers(folderPath) {
         $('#processing').show();
         let docText = $('#mainText').val() || '';
@@ -234,5 +229,5 @@ $(document).ready(function () {
             sortDirection = 'asc';
         }
         updateTable();
-    });
+    }); */
 });
