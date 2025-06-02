@@ -13,7 +13,7 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
         exit;
     }
 
-    $uploadDir = '../INPUT/';
+    $uploadDir = '/var/www/html/storage/';
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }

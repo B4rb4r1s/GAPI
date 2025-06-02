@@ -57,6 +57,11 @@ $(document).ready(function () {
                                     $('#modifiedText').val('Ошибка при загрузке файла: ' + error);
                                 }
                             });
+
+                            // // Доступ к файлу через [invalid url, do not cite]/storage/ + remoteResponse.file
+                            // fetch('http://localhost:8080/storage/' + remoteResponse.fileUrl)
+                            //     .then(response => response.text())
+                            //     .then(text => console.log(text));
                         }
                     },
                     error: function (xhr, status, error) {

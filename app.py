@@ -31,7 +31,7 @@ def handle_task():
             print(content)
 
         # Симуляция обработки и запись в OUTPUT
-        output_path = f'INPUT/result_2.txt'
+        output_path = f'storage/result_2.txt'
         with open(output_path, 'w') as f:
             f.write("Processed content\n")
             f.write(content)
@@ -39,7 +39,7 @@ def handle_task():
         # "fileUrl": "/var/www/html/php/uploads/1.txt"
         # "fileUrl": "/var/www/html/OUTPUT/output.txt"
         return jsonify({
-            "fileUrl": "INPUT/result_2.txt"
+            "fileUrl": "result_2.txt"
             })
     
     elif task == 'vector_text':
