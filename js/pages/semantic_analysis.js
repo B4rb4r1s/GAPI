@@ -58,16 +58,13 @@ $(document).ready(function () {
     });
 
     // Send data to both remote servers
-    function sendToServers(folderPath) {
+    function sendToServers(folderPath, docText) {
         $('#processing').show();
-        let docText = $('#mainText').val() || '';
         let jsonData = {
             task: 'semantic_analysis',
             folderpath: folderPath,
             doc_text: docText
         };
-
-        console.log('Sending to servers:', jsonData);
 
         let developerPromise = $.ajax({
             url: 'http://localhost:5050/api/task',
@@ -75,7 +72,7 @@ $(document).ready(function () {
             data: JSON.stringify(jsonData),
             contentType: 'application/json',
             dataType: 'json',
-            timeout: 10000 // 10-second timeout
+            timeout: 10000
         });
 
         let ourPromise = $.ajax({
@@ -84,24 +81,16 @@ $(document).ready(function () {
             data: JSON.stringify(jsonData),
             contentType: 'application/json',
             dataType: 'json',
-            timeout: 10000 // 10-second timeout
+            timeout: 10000
         });
 
         Promise.all([developerPromise, ourPromise])
             .then(([developerResponse, ourResponse]) => {
-                console.log('Developer Response:', developerResponse);
-                console.log('Our Response:', ourResponse);
                 combineAndDisplayData(developerResponse, ourResponse);
                 $('#output').append('\nJSON отправлен на сервер: ' + JSON.stringify(jsonData));
                 $('#processing').hide();
             })
             .catch(error => {
-                console.error('Ошибка при отправке на серверы:', {
-                    message: error.message,
-                    status: error.status,
-                    responseText: error.responseText,
-                    stack: error.stack
-                });
                 $('#output').append('\nОшибка при отправке JSON: ' + (error.message || 'Неизвестная ошибка'));
                 $('#processing').hide();
             });
@@ -109,9 +98,8 @@ $(document).ready(function () {
 
     // Combine data from both JSONs
     function combineAndDisplayData(developerData, ourData) {
-        if (!developerData || !developerData.documents || !ourData || !ourData.documents) {
+        if (!developerData?.documents?.length || !ourData?.documents?.length) {
             $('#output').append('\nОшибка: Неверный формат ответа от серверов');
-            console.error('Invalid server response:', { developerData, ourData });
             $('#tableBody').empty().append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
             return;
         }
@@ -128,7 +116,6 @@ $(document).ready(function () {
             };
         });
 
-        console.log('Combined Data:', currentData);
         updateTable();
         updateChart();
     }
@@ -142,11 +129,7 @@ $(document).ready(function () {
                 valA = valA.toLowerCase();
                 valB = valB.toLowerCase();
             }
-            if (sortDirection === 'asc') {
-                return valA > valB ? 1 : -1;
-            } else {
-                return valA < valB ? 1 : -1;
-            }
+            return sortDirection === 'asc' ? (valA > valB ? 1 : -1) : (valA < valB ? 1 : -1);
         });
 
         let start = (currentPage - 1) * rowsPerPage;
@@ -171,7 +154,6 @@ $(document).ready(function () {
         }
 
         updatePagination(sortedData.length);
-        updateChart();
     }
 
     // Update pagination
@@ -197,7 +179,7 @@ $(document).ready(function () {
     }
 
     // Initialize chart
-    let chart = new Chart($('#comparisonChart'), {
+    let chart = new Chart($('#combinedChart'), {
         type: 'bar',
         data: {
             labels: [],
@@ -222,19 +204,34 @@ $(document).ready(function () {
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 1
+                    max: 1,
+                    title: {
+                        display: true,
+                        text: 'Значение'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Номер документа'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true
                 }
             }
         }
     });
 
-    // Update chart
+    // Update chart with document numbers
     function updateChart() {
         let start = (currentPage - 1) * rowsPerPage;
         let end = start + rowsPerPage;
         let paginatedData = currentData.slice(start, end);
 
-        chart.data.labels = paginatedData.map(doc => doc.doc_title);
+        chart.data.labels = paginatedData.map((doc, index) => start + index + 1);
         chart.data.datasets[0].data = paginatedData.map(doc => doc.developer_value);
         chart.data.datasets[1].data = paginatedData.map(doc => doc.cosine_value);
         chart.update();
