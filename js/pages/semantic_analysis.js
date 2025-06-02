@@ -100,7 +100,12 @@ $(document).ready(function () {
     function combineAndDisplayData(developerData, ourData) {
         if (!developerData?.documents?.length || !ourData?.documents?.length) {
             $('#output').append('\nОшибка: Неверный формат ответа от серверов');
+<<<<<<< HEAD
             $('#tableBody').empty().append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
+=======
+            console.error('Invalid server response:', { developerData, ourData });
+            $('#results-body').empty().append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
+>>>>>>> 79a3b9fb3fac3c264fb9d58421e9fb67d4a9b3be
             return;
         }
 
@@ -136,12 +141,12 @@ $(document).ready(function () {
         let end = start + rowsPerPage;
         let paginatedData = sortedData.slice(start, end);
 
-        $('#tableBody').empty();
+        $('#results-body').empty();
         if (paginatedData.length === 0) {
-            $('#tableBody').append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
+            $('#results-body').append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
         } else {
             paginatedData.forEach(doc => {
-                $('#tableBody').append(`
+                $('#results-body').append(`
                     <tr>
                         <td>${doc.doc_title}</td>
                         <td><a href="${doc.doc_link}" target="_blank">${doc.doc_link}</a></td>
