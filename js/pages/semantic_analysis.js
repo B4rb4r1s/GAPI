@@ -5,18 +5,19 @@ $(document).ready(function () {
     let sortColumn = 'doc_title';
     let sortDirection = 'asc';
 
-    // Handle folder upload
-    $('#uploadForm').on('submit', function (e) {
+    $('#uploadForm').on('change', function (e) {
         e.preventDefault();
-        let files = $('#folderInput')[0].files;
+        let files = e.target.files;
         let formData = new FormData();
         let folderName = '';
 
         if (!files.length) {
+            // Если папка пуста, создаём пустой файл
             let emptyFile = new File([""], "empty.txt", { type: "text/plain" });
             formData.append('file', emptyFile);
             folderName = 'selected_folder';
         } else {
+            // Используем первый файл и извлекаем имя папки
             formData.append('file', files[0]);
             let relativePath = files[0].webkitRelativePath;
             folderName = relativePath.split('/')[0];
