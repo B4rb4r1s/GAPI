@@ -55,15 +55,15 @@ function checkSynonymy() {
         success: function (response) {
             console.log('Успешно отправлено на удаленный сервер:', response);
             // Mock response for demonstration (replace with actual response handling)
-            const vectorData = {
-                orginal_mvf: [1, 0, 2],
-                synonymous_mvf: [1, 2, 4],
-                developer_value: 0.6065
-            };
-            $('#original-mvf').text(vectorData.orginal_mvf.join(', '));
-            $('#synonymous-mvf').text(vectorData.synonymous_mvf.join(', '));
-            $('#developer-value').text(vectorData.developer_value);
-            compareTexts();
+            // const vectorData = {
+            //     orginal_mvf: [1, 0, 2],
+            //     synonymous_mvf: [1, 2, 4],
+            //     developer_value: 0.6065
+            // };
+            $('#original-mvf').text(response.original_mvf.join(', '));
+            $('#synonymous-mvf').text(response.synonymous_mvf.join(', '));
+            $('#developer-value').text(response.developer_value);
+            // compareTexts();
         },
         error: function (xhr, status, error) {
             console.error('Ошибка при отправке на удаленный сервер:', error);

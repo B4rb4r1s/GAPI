@@ -53,9 +53,9 @@ def handle_task():
               \n[LOGGER] request modified_file_path - {modified_file_path}', flush=True)
         # Симуляция обработки
         return jsonify({
-            "original_mvf": [1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
-            "synonymous_mvf": [1,1,1,2,1,1,1,1,1,0,1,1,1,1,2,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1],
-            "developer_value": 0.89
+            "original_mvf":     [1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+            "synonymous_mvf":   [1,1,1,2,1,1,1,1,1,0,1,1,1,1,2,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1],
+            "developer_value":  0.89
             })
     
     elif task == 'semantic_analysis':
@@ -63,10 +63,10 @@ def handle_task():
         return jsonify({
             "documents": [
                 {
-                "document_id": "1",
-                "document_name": "Document 1",
-                "document_link": "C:\\Local_storage\\Document 1.docx",
-                "developer_value": 0.89
+                "document_id":      "1",
+                "document_name":    "Document 1",
+                "document_link":    "C:\\Local_storage\\Document 1.docx",
+                "developer_value":  0.89
                 }
             ]
             })
