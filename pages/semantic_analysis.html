@@ -20,7 +20,7 @@
             <div class="col-12 col-md-4">
                 <form id="uploadForm" enctype="multipart/form-data">
                     <label for="file-upload" class="custom-file-upload grid-button">Выбрать папку</label>
-                    <input id="file-upload" type="file" webkitdirectory directory multiple/>
+                    <input id="file-upload" type="file" webkitdirectory directory multiple />
                 </form>
                 <div id="output">Абсолютный путь к папке появится здесь...</div>
             </div>
@@ -32,10 +32,11 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-12">
-                <div id="results">
+                <div id="processing" style="display:none;">Обработка...</div>
+
+                <div>
                     <h2>Результаты сравнения</h2>
-                    <div id="results-summary"></div>
-                    <table class="results-table">
+                    <table>
                         <thead>
                             <tr>
                                 <th data-sort="doc_title">Файл поискового отклика ↕</th>
@@ -45,16 +46,18 @@
                                 <th data-sort="arccosine_value">Угловая близость ↕</th>
                             </tr>
                         </thead>
-                        <tbody id="results-body"></tbody>
+                        <tbody id="tableBody"></tbody>
                     </table>
-                    <div class="pagination">
-                        <button id="prevPage" disabled>Предыдущая</button>
-                        <span id="pageInfo">Страница 1 из 1</span>
-                        <button id="nextPage" disabled>Следующая</button>
+
+                    <div id="pagination">
+                        <a href="#" data-page="0" style="display:none;">Предыдущая</a>
+                        <a href="#" data-page="1" class="active">1</a>
+                        <a href="#" data-page="2" style="display:none;">Следующая</a>
                     </div>
-                    <div id="chart-container">
-                        <canvas id="combinedChart"></canvas>
-                    </div>
+                </div>
+
+                <div>
+                    <canvas id="combinedChart"></canvas>
                 </div>
             </div>
         </div>
