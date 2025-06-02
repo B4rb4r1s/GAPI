@@ -36,14 +36,11 @@ $(document).ready(function () {
                     $('#output').text('Ошибка: ' + response.error);
                     return;
                 }
-
                 // Формируем путь в стиле C:\folder_name
                 let folderPath = 'C:\\' + response.folder_name;
                 $('#output').text('Абсолютный путь к папке: ' + folderPath);
-
                 // Получаем текст из textarea
                 let docText = $('#mainText').val() || '';
-
                 // Формируем JSON
                 let jsonData = {
                     folderpath: folderPath,
@@ -63,7 +60,6 @@ $(document).ready(function () {
     // Send data to both remote servers
     function sendToServers(folderPath, docText) {
         $('#processing').show();
-        // let docText = $('#mainText').val() || '';
         let jsonData = {
             task: 'semantic_analysis',
             folderpath: folderPath,
@@ -90,6 +86,8 @@ $(document).ready(function () {
 
         Promise.all([developerPromise, ourPromise])
             .then(([developerResponse, ourResponse]) => {
+                console.log('Developer Response:', developerResponse);
+                console.log('Our Response:', ourResponse);
                 combineAndDisplayData(developerResponse, ourResponse);
                 $('#output').append('\nJSON отправлен на сервер: ' + JSON.stringify(jsonData));
                 $('#processing').hide();
@@ -103,18 +101,24 @@ $(document).ready(function () {
 
     // Combine data from both JSONs
     function combineAndDisplayData(developerData, ourData) {
+        if (!developerData.documents || !ourData.documents) {
+            $('#output').append('\nОшибка: Неверный формат ответа от серверов');
+            return;
+        }
+
         currentData = developerData.documents.map(devDoc => {
             let ourDoc = ourData.documents.find(doc => doc.id === devDoc.id);
             return {
                 id: devDoc.id,
-                doc_title: devDoc.doc_title,
-                doc_link: devDoc.doc_link,
-                developer_value: devDoc.developer_value,
+                doc_title: devDoc.doc_title || 'Unknown',
+                doc_link: devDoc.doc_link || '#',
+                developer_value: devDoc.developer_value || 0,
                 cosine_value: ourDoc ? ourDoc.cosine_value : 0,
                 arccosine_value: ourDoc ? ourDoc.arccosine_value : 0
             };
         });
 
+        console.log('Combined Data:', currentData);
         updateTable();
         updateChart();
     }
@@ -140,17 +144,21 @@ $(document).ready(function () {
         let paginatedData = sortedData.slice(start, end);
 
         $('#tableBody').empty();
-        paginatedData.forEach(doc => {
-            $('#tableBody').append(`
-                <tr>
-                    <td>${doc.doc_title}</td>
-                    <td><a href="${doc.doc_link}" target="_blank">${doc.doc_link}</a></td>
-                    <td>${doc.developer_value.toFixed(4)}</td>
-                    <td>${doc.cosine_value.toFixed(4)}</td>
-                    <td>${doc.arccosine_value.toFixed(4)}</td>
-                </tr>
-            `);
-        });
+        if (paginatedData.length === 0) {
+            $('#tableBody').append('<tr><td colspan="5">Нет данных для отображения</td></tr>');
+        } else {
+            paginatedData.forEach(doc => {
+                $('#tableBody').append(`
+                    <tr>
+                        <td>${doc.doc_title}</td>
+                        <td><a href="${doc.doc_link}" target="_blank">${doc.doc_link}</a></td>
+                        <td>${doc.developer_value.toFixed(4)}</td>
+                        <td>${doc.cosine_value.toFixed(4)}</td>
+                        <td>${doc.arccosine_value.toFixed(4)}</td>
+                    </tr>
+                `);
+            });
+        }
 
         updatePagination(sortedData.length);
         updateChart();
@@ -179,7 +187,7 @@ $(document).ready(function () {
     }
 
     // Initialize chart
-    let chart = new Chart($('#combinedChart'), {
+    let chart = new Chart($('#comparisonChart'), {
         type: 'bar',
         data: {
             labels: [],
