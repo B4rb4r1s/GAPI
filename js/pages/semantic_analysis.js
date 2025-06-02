@@ -154,6 +154,7 @@ $(document).ready(function () {
         }
 
         updatePagination(sortedData.length);
+        updateChart(); // Ensure chart updates after table
     }
 
     // Update pagination
@@ -178,25 +179,29 @@ $(document).ready(function () {
         });
     }
 
-    // Initialize chart
+    // Initialize line chart
     let chart = new Chart($('#combinedChart'), {
-        type: 'bar',
+        type: 'line', // Changed to line chart
         data: {
             labels: [],
             datasets: [
                 {
                     label: 'Степень близости разработчика',
                     data: [],
-                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
                     borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Light fill for points
+                    borderWidth: 2,
+                    fill: false,
+                    pointRadius: 4
                 },
                 {
                     label: 'Референсная близость',
                     data: [],
-                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
                     borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Light fill for points
+                    borderWidth: 2,
+                    fill: false,
+                    pointRadius: 4
                 }
             ]
         },
@@ -225,15 +230,21 @@ $(document).ready(function () {
         }
     });
 
-    // Update chart with document numbers
+    // Update chart with document numbers for current page
     function updateChart() {
         let start = (currentPage - 1) * rowsPerPage;
         let end = start + rowsPerPage;
         let paginatedData = currentData.slice(start, end);
 
-        chart.data.labels = paginatedData.map((doc, index) => start + index + 1);
-        chart.data.datasets[0].data = paginatedData.map(doc => doc.developer_value);
-        chart.data.datasets[1].data = paginatedData.map(doc => doc.cosine_value);
+        if (paginatedData.length === 0) {
+            chart.data.labels = [];
+            chart.data.datasets[0].data = [];
+            chart.data.datasets[1].data = [];
+        } else {
+            chart.data.labels = paginatedData.map((doc, index) => start + index + 1);
+            chart.data.datasets[0].data = paginatedData.map(doc => doc.developer_value);
+            chart.data.datasets[1].data = paginatedData.map(doc => doc.cosine_value);
+        }
         chart.update();
     }
 
