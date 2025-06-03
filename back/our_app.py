@@ -8,65 +8,24 @@ CORS(app)
 
 @app.route('/api/task', methods=['POST'])
 def handle_task():
+
+    # Получение запроса от Оболочки
     data = request.json
-
     task = data.get('task')
-
     
-    if task == 'clean_text':
-        file_path = data.get('file_path')
-        file_path = file_path[14:]
-        print(f'[LOGGER] request task - {task}\
-              \n[LOGGER] request file_path - {file_path}', flush=True)
-        
-        if not os.path.exists(file_path):
-            print(f'[LOGGER ERROR] 404 - File not found', flush=True)
-            return jsonify({
-                "error": "File not found"
-                }), 404
-        
-        # Чтение переданного фала
-        with open(file_path, 'r') as f:
-            content = f.read()
-            print(content)
-
-        # Симуляция обработки и запись в OUTPUT
-        output_path = f'storage/result_2.txt'
-        with open(output_path, 'w') as f:
-            f.write("Processed content\n")
-            f.write(content)
-
-        # "fileUrl": "/var/www/html/php/uploads/1.txt"
-        # "fileUrl": "/var/www/html/OUTPUT/output.txt"
-        return jsonify({
-            "fileUrl": "result_2.txt"
-            })
-    
-    elif task == 'vector_text':
+    # Выполнение третьей задачи
+    if task == 'semantic_analysis':
         data = request.json
-        task = data.get('task')
-        original_file_path = data.get('original_file_path')
-        modified_file_path = data.get('modified_file_path')
-        file_path = data.get('file_path')
-        print(f'[LOGGER] request task - {task}\
-              \n[LOGGER] request original_file_path - {original_file_path}\
-              \n[LOGGER] request modified_file_path - {modified_file_path}', flush=True)
-        # Симуляция обработки
-        return jsonify({
-            "original_mvf":     [1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
-            "synonymous_mvf":   [1,1,1,2,1,1,1,1,1,0,1,1,1,1,2,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1],
-            "developer_value":  0.89
-            })
-    
-    elif task == 'semantic_analysis':
-        data = request.json
+
         task = data.get('task')
         folderpath = data.get('folderpath')
         doc_text = data.get('doc_text')
         print(f'[LOGGER] request task - {task}\
               \n[LOGGER] request folderpath - {folderpath}\
               \n[LOGGER] request doc_text - {doc_text}', flush=True)
-        # Симуляция обработки
+        
+        # Симуляция обработки и возвраю ответа в json
+        #   пример обработки оболочки
         return jsonify({
   "documents": [
     {"id": 1, "doc_title": "Document 1", "doc_link": "https://example.com/doc1", "cosine_value": 0.8234, "arccosine_value": 0.6759},
