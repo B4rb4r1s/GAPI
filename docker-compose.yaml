@@ -7,12 +7,9 @@ services:
     ports:
       - "8080:80"
     volumes:
-      # - .:/app
-      - .:/var/www/html/
+      - ./front:/var/www/html/
       - storage:/var/www/html/storage
-    # networks:
-    #   uninet:
-    #     ipv4_address: 192.168.55.1
+    # command: [ 'apache2ctl', '-D', 'FOREGROUND' ]
 
   back:
     image: gapi_back
@@ -20,14 +17,9 @@ services:
     ports:
       - "5050:5000"
     volumes:
-      - .:/app
-      - ./tasks/Task_9:/var/www/html/
-      - storage:/storage
-    # networks:
-    #   uninet:
-    #     ipv4_address: 192.168.55.15
+      - ./back:/app
+      - storage:/app/storage
     command: python app.py
-    # command: [ 'apache2ctl', '-D', 'FOREGROUND' ]
 
   back2:
     image: gapi_back
@@ -35,22 +27,10 @@ services:
     ports:
       - "5051:5000"
     volumes:
-      - .:/app
-      - ./tasks/Task_9:/var/www/html/
+      - ./back:/app
       - storage:/storage
-    # networks:
-    #   uninet:
-    #     ipv4_address: 192.168.55.15
     command: python our_app.py
-    # command: [ 'apache2ctl', '-D', 'FOREGROUND' ]
 
 
 volumes:
   storage:
-
-# networks:
-#   uninet:
-#     ipam:
-#       driver: default
-#       config:
-#         - subnet: "192.168.55.0/24"
