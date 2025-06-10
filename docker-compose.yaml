@@ -2,6 +2,9 @@
 services:
 
   front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
     image: gapi_front
     container_name: gapi_front_c
     ports:
@@ -12,6 +15,9 @@ services:
     # command: [ 'apache2ctl', '-D', 'FOREGROUND' ]
 
   back:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
     image: gapi_back
     container_name: gapi_back_c
     ports:
